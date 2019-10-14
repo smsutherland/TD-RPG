@@ -1,1 +1,2 @@
 *.autosave
+# the .autosave files come from Processing when when you edit in a separate text editor (I believe)
