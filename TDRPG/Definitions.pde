@@ -1,0 +1,1 @@
+final String START_MENU_IMAGE = "Start Menu.png";
