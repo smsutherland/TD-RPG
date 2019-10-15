@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import controlP5.*;
 
 final int WINDOW_WIDTH = 1200;
@@ -10,6 +11,8 @@ int screenState = 0;
 boolean initializeStartMenu = true;
 PImage startMenuBackground;
 
+=======
+>>>>>>> Moving the definition of window height/width to the definitions file
 void setup(){
 	size(1200, 700);
 	surface.setResizable(true);
