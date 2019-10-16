@@ -1,8 +1,5 @@
 import controlP5.*;
 
-final int WINDOW_WIDTH = 1200;
-final int WINDOW_HEIGHT = 700;
-
 int screenState = 0;
 boolean initializeStartMenu = true;
 PImage startMenuBackground;
