@@ -9,13 +9,12 @@ int screenState = 0;
 
 String[] toRemove = new String[20];
 
-boolean initializeStartMenu = true;
-PImage startMenuBackground;
+boolean initialize = true;
+PImage currentBackground;
 
 void setup(){
 	surface.setResizable(true);
 	surface.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	startMenuBackground = loadImage(START_MENU_IMAGE);
 	
 	cp5 = new ControlP5(this);
 }
@@ -38,12 +37,14 @@ void draw(){
 		settingsMenu();
 		break;
 	}
+	
+	background(currentBackground);
 }
 
 void startMenu(){
-	if(initializeStartMenu){
-		initializeStartMenu = false;
-		background(startMenuBackground);
+	if(initialize){
+		initialize = false;
+		currentBackground = loadImage(START_MENU_BACKGROUND);
 		
 		PImage startButton = loadImage(PLAY_BUTTON);
 		cp5.addButton("Play_Button").setPosition(100, 400).setImages(startButton, startButton, startButton).updateSize();
@@ -58,7 +59,13 @@ void startMenu(){
 }
 
 void settingsMenu(){
-	
+	if(initialize){
+		initialize = false;
+		currentBackground = loadImage(SETTINGS_MENU_BACKGROUND);
+		
+		PImage backButton = loadImage(BACK_BUTTON);
+		cp5.addButton("Settings_Back").setPosition(100, 600).setImages(backButton, backButton, backButton).updateSize();
+	}
 }
 
 void removeController(String controllerName){
@@ -80,6 +87,7 @@ public void Play_Button(){
 
 public void Settings_Button(){
 	screenState = 1;
+	initialize = true;
 	removeController("Play_Button");
 	removeController("Settings_Button");
 	removeController("Exit_Button");
@@ -87,4 +95,10 @@ public void Settings_Button(){
 
 public void Exit_Button(){
 	exit();
+}
+
+public void Settings_Back(){
+	screenState = 0;
+	initialize = true;
+	removeController("Settings_Back");
 }
