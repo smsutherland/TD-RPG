@@ -1,13 +1,22 @@
 [
 	[
 		{
-			"background": "Menus/Map Menu/Map1.png",
-			"number": 5
+			"background": "Menus/Map Menu/Map1.png"
 		},
 		{
 			"name": "Level 1",
 			"xPos": 20,
-			"yPos": 20
+			"yPos": 20,
+			"unlocked": true
+		}
+	],
+	[
+		{
+			"background": "Menus/Map Menu/Map1.png",
+			"number": 3
+		},
+		{
+			
 		}
 	]
 ]

@@ -1,2 +1,4 @@
 *.autosave
 # the .autosave files come from Processing when when you edit in a separate text editor (I believe)
+*.sublime*
+# these are the sublime project files and don't need to be carried through git
