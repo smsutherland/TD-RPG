@@ -1,0 +1,13 @@
+[
+	[
+		{
+			"background": "Menus/Map Menu/Map1.png",
+			"number": 5
+		},
+		{
+			"name": "Level 1",
+			"xPos": 20,
+			"yPos": 20
+		}
+	]
+]

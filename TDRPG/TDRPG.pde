@@ -5,6 +5,7 @@ int screenState = 0;
 /*
 0 = Start Menu
 1 = Settings Menu
+2 = Map Menu
 */
 
 String[] toRemove = new String[20];
@@ -15,6 +16,7 @@ PImage currentBackground;
 void setup(){
 	surface.setResizable(true);
 	surface.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	surface.setLocation(20, 20);
 	
 	cp5 = new ControlP5(this);
 }
@@ -36,6 +38,8 @@ void draw(){
 		case 1:
 		settingsMenu();
 		break;
+		case 2:
+		mapMenu();
 	}
 	
 	background(currentBackground);
@@ -68,6 +72,18 @@ void settingsMenu(){
 	}
 }
 
+void mapMenu(){
+	if(initialize){
+		JSONArray mapValues;
+		mapValues = loadJSONArray(MAP_DATA);
+		JSONArray currentMapValues;
+		currentMapValues = mapValues.getJSONArray(0);
+		println("Number of levels " + currentMapValues.getJSONObject(0).getInt("number"));
+		
+		initialize = false;
+	}
+}
+
 void removeController(String controllerName){
 	for(int i = 0; i < toRemove.length; i++){
 		if(toRemove[i] == null){
@@ -82,7 +98,11 @@ public void controlEvent(ControlEvent e){
 }
 
 public void Play_Button(){
-	
+	screenState = 2;
+	initialize = true;
+	removeController("Play_Button");
+	removeController("Settings_Button");
+	removeController("Exit_Button");
 }
 
 public void Settings_Button(){
