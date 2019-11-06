@@ -35,11 +35,7 @@ void setup(){
 }
 
 void draw(){
-	
-	if(toRemove.size() > 0){
-		cp5.remove(toRemove.get(toRemove.size() - 1));
-		toRemove.remove(toRemove.size() - 1);
-	}
+	removeItterate();
 	
 	switch(screenState){
 	case 0:
@@ -64,20 +60,10 @@ void startMenu(){
 		initialize = false;
 		currentBackground = loadImage(START_MENU_BACKGROUND);
 		
-		PImage startButton = loadImage(PLAY_BUTTON);
-		cp5.addButton("Play_Button").setPosition(100, 400).setImages(startButton, startButton, startButton).updateSize();
-		currentControllers.add("Play_Button");
-		
-		
-		PImage settingsButton = loadImage(SETTINGS_BUTTON);
-		cp5.addButton("Settings_Button").setPosition(100, 450).setImages(settingsButton, settingsButton, settingsButton).updateSize();
-		currentControllers.add("Settings_Button");
-		
-		PImage exitButton = loadImage(EXIT_BUTTON);
-		cp5.addButton("Exit_Button").setPosition(100, 500).setImages(exitButton, exitButton, exitButton).updateSize();
-		currentControllers.add("Exit_Button");
+		addButton("Play_Button", 100, 400, PLAY_BUTTON);
+		addButton("Settings_Button", 100, 450, SETTINGS_BUTTON);
+		addButton("Exit_Button", 100, 500, EXIT_BUTTON);
 	}
-	
 }
 
 void settingsMenu(){
@@ -85,9 +71,7 @@ void settingsMenu(){
 		initialize = false;
 		currentBackground = loadImage(SETTINGS_MENU_BACKGROUND);
 		
-		PImage backButton = loadImage(BACK_BUTTON);
-		cp5.addButton("Settings_Back").setPosition(100, 600).setImages(backButton, backButton, backButton).updateSize();
-		currentControllers.add("Settings_Back");
+		addButton("Settings_Back", 100, 600, BACK_BUTTON);
 	}
 }
 
@@ -105,12 +89,8 @@ void mapMenu(){
 			}
 		}
 		
-		PImage backButton = loadImage(BACK_BUTTON);
-		cp5.addButton("Map_Back").setPosition(100, 600).setImages(backButton, backButton, backButton).updateSize();
-		currentControllers.add("Map_Back");
-		PImage nextButton = loadImage(NEXT_BUTTON);
-		cp5.addButton("Map_Next").setPosition(1050, 600).setImages(nextButton, nextButton, nextButton).updateSize();
-		currentControllers.add("Map_Next");
+		addButton("Map_Back", 100, 600, BACK_BUTTON);
+		addButton("Map_Next", 1050, 600, NEXT_BUTTON);
 		
 		initialize = false;
 	}
@@ -128,6 +108,19 @@ void removeController(String controllerName){
 void clearController(){
 	toRemove.addAll(currentControllers);
 	currentControllers.clear();
+}
+
+void removeItterate(){
+	if(toRemove.size() > 0){
+		cp5.remove(toRemove.get(toRemove.size() - 1));
+		toRemove.remove(toRemove.size() - 1);
+	}
+}
+
+void addButton(String name, int x, int y, String imageName){
+	PImage buttonImage = loadImage(imageName);
+	cp5.addButton(name).setPosition(x, y).setImages(buttonImage, buttonImage, buttonImage).updateSize();
+	currentControllers.add(name);
 }
 
 public void controlEvent(ControlEvent e){
