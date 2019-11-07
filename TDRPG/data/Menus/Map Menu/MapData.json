@@ -23,9 +23,9 @@
 			"screen number": 1
 		},
 		{
-			"name": "Level 3",
-			"xPos": 20,
-			"yPos": 20,
+			"name": "Level 1",
+			"xPos": 40,
+			"yPos": 40,
 			"unlocked": true
 		}
 	]
