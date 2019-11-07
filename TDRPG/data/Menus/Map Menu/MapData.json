@@ -8,6 +8,12 @@
 			"xPos": 20,
 			"yPos": 20,
 			"unlocked": true
+		},
+		{
+			"name": "Level 2",
+			"xPos": 100,
+			"yPos": 400,
+			"unlocked": true
 		}
 	],
 	[

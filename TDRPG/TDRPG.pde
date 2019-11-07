@@ -14,14 +14,20 @@ ArrayList<String> currentControllers = new ArrayList<String>();
 
 boolean initialize = true;
 PImage currentBackground;
+PImage levelBackground;
 JSONArray currentMapData;
 JSONObject currentLevelData;
+
+PFont title;
+PFont smallTitle;
+PFont subTitle;
 
 CallbackListener moveToLevelInfo = new CallbackListener() {
 	public void controlEvent(CallbackEvent e){
 		println("Opening level info for " + e.getController().getName());
 		currentLevelData = loadJSONObject(LEVEL_DATA).getJSONObject(e.getController().getName());
 		screenState = 3;
+		initialize = true;
 		clearController();
 	}
 };
@@ -30,12 +36,20 @@ void setup(){
 	//surface.setResizable(true);
 	surface.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	surface.setLocation(20, 20);
+	noStroke();
+	title = createFont("Times New Roman", 32);
+	smallTitle = createFont("Times New Roman", 24);
+	
 	
 	cp5 = new ControlP5(this);
 }
 
 void draw(){
 	removeItterate();
+	
+	if(currentBackground != null){
+		background(currentBackground);	
+	}
 	
 	switch(screenState){
 	case 0:
@@ -52,7 +66,7 @@ void draw(){
 		break;
 	}
 	
-	background(currentBackground);
+
 }
 
 void startMenu(){
@@ -97,7 +111,35 @@ void mapMenu(){
 }
 
 void levelInfo(){
+	if(initialize){
+		levelBackground = loadImage(currentLevelData.getString("background"));
+		initialize = false;
+		addButton("Level_Info_Back", WINDOW_WIDTH/5, WINDOW_HEIGHT*4/5, BACK_BUTTON);
+		addButton("Level_Info_Play", WINDOW_WIDTH*4/5 - 50, WINDOW_HEIGHT*4/5, NEXT_BUTTON);
+	}
+	rectMode(CORNER);
+	noStroke();
+	fill(100, 100, 100, 255/2);
+	rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	
+	stroke(0);
+	strokeWeight(2);
+	rectMode(CENTER);
+	fill(255);
+	rect(WINDOW_WIDTH/2, WINDOW_HEIGHT*2/5, WINDOW_WIDTH*3/5, WINDOW_HEIGHT*3/5);
+	
+	imageMode(CENTER);
+	image(levelBackground, WINDOW_WIDTH/2, WINDOW_HEIGHT*2/5, WINDOW_WIDTH*3/5, WINDOW_HEIGHT*3/5);
+	
+	textFont(title);
+	if(currentLevelData.getString("name").length() > 10){
+		textFont(smallTitle);
+		println("text size set to 24");
+	}
+	fill(0);
+	textAlign(CENTER, CENTER);
+	//rect(WINDOW_WIDTH/2, WINDOW_HEIGHT*3/4, WINDOW_WIDTH*1/2, WINDOW_HEIGHT/10);
+	text(currentLevelData.getString("name"), WINDOW_WIDTH/2, WINDOW_HEIGHT*3/4, WINDOW_WIDTH*1/2, WINDOW_HEIGHT/10);
 }
 
 void removeController(String controllerName){
@@ -120,6 +162,11 @@ void removeItterate(){
 void addButton(String name, int x, int y, String imageName){
 	PImage buttonImage = loadImage(imageName);
 	cp5.addButton(name).setPosition(x, y).setImages(buttonImage, buttonImage, buttonImage).updateSize();
+	currentControllers.add(name);
+}
+
+void addButton(String name, int x, int y){
+	cp5.addButton(name).setPosition(x, y);
 	currentControllers.add(name);
 }
 
@@ -149,3 +196,8 @@ public void Settings_Back(){
 	clearController();
 }
 
+public void Level_Info_Back(){
+	screenState = 2;
+	initialize = true;
+	clearController();
+}
