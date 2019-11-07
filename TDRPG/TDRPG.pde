@@ -134,6 +134,7 @@ void levelInfo(){
 		addButton("Level_Info_Play", WINDOW_WIDTH*4/5 - 50, WINDOW_HEIGHT*4/5, NEXT_BUTTON);
 		
 		cp5.addRadioButton("Difficulty").setPosition(WINDOW_WIDTH*3/5 + 100, WINDOW_HEIGHT*4/5).setSize(40, 20).setItemsPerRow(1).addItem("Normal", 0).addItem("Hard", 1).setNoneSelectedAllowed(false).activate(0);
+		currentControllers.add("Difficulty");
 	}
 	levelInfoDrawShade();
 
