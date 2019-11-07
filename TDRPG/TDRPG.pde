@@ -65,8 +65,6 @@ void draw(){
 		levelInfo();
 		break;
 	}
-	
-
 }
 
 void startMenu(){
@@ -91,20 +89,27 @@ void settingsMenu(){
 
 void mapMenu(){
 	if(initialize){
-		JSONArray mapValues;
-		mapValues = loadJSONArray(MAP_DATA);
-		currentMapData = mapValues.getJSONArray(0);
 		currentBackground = loadImage(currentMapData.getJSONObject(0).getString("background"));
 		for(int i = 1; i < currentMapData.size(); i++){
 			JSONObject currentObject = currentMapData.getJSONObject(i);
 			if(currentObject.getBoolean("unlocked")){
 				cp5.addButton(currentObject.getString("name")).setPosition(currentObject.getInt("xPos"), currentObject.getInt("yPos")).setSize(50, 50).onPress(moveToLevelInfo);
 				currentControllers.add(currentObject.getString("name"));
+				for(int j = 0; j < toRemove.size(); j++){
+					String buttonName = toRemove.get(j);
+					println(currentObject.getString("name") + ", " + toRemove.get(j));
+					if(buttonName.equals(currentObject.getString("name"))){
+						toRemove.remove(j);
+						println("Removed " + currentObject.getString("name") + " from the toRemove list");
+					}
+				}
 			}
 		}
 		
 		addButton("Map_Back", 100, 600, BACK_BUTTON);
-		addButton("Map_Next", 1050, 600, NEXT_BUTTON);
+		if(currentMapData.getJSONObject(0).getInt("screen number") < loadJSONArray(MAP_DATA).size() - 1){
+			addButton("Map_Next", 1050, 600, NEXT_BUTTON);		
+		}
 		
 		initialize = false;
 	}
@@ -134,11 +139,9 @@ void levelInfo(){
 	textFont(title);
 	if(currentLevelData.getString("name").length() > 10){
 		textFont(smallTitle);
-		println("text size set to 24");
 	}
 	fill(0);
 	textAlign(CENTER, CENTER);
-	//rect(WINDOW_WIDTH/2, WINDOW_HEIGHT*3/4, WINDOW_WIDTH*1/2, WINDOW_HEIGHT/10);
 	text(currentLevelData.getString("name"), WINDOW_WIDTH/2, WINDOW_HEIGHT*3/4, WINDOW_WIDTH*1/2, WINDOW_HEIGHT/10);
 }
 
@@ -153,9 +156,12 @@ void clearController(){
 }
 
 void removeItterate(){
-	if(toRemove.size() > 0){
-		cp5.remove(toRemove.get(toRemove.size() - 1));
-		toRemove.remove(toRemove.size() - 1);
+	if(!initialize){
+			if(toRemove.size() > 0){
+			cp5.remove(toRemove.get(toRemove.size() - 1));
+			println("Removed controller " + toRemove.get(toRemove.size() - 1));
+			toRemove.remove(toRemove.size() - 1);
+		}
 	}
 }
 
@@ -163,11 +169,23 @@ void addButton(String name, int x, int y, String imageName){
 	PImage buttonImage = loadImage(imageName);
 	cp5.addButton(name).setPosition(x, y).setImages(buttonImage, buttonImage, buttonImage).updateSize();
 	currentControllers.add(name);
+	for(int i = 0; i < toRemove.size(); i++){
+		String buttonName = toRemove.get(i);
+		if(buttonName.equals(name)){
+			toRemove.remove(i);
+		}
+	}
 }
 
 void addButton(String name, int x, int y){
 	cp5.addButton(name).setPosition(x, y);
 	currentControllers.add(name);
+	for(int i = 0; i < toRemove.size(); i++){
+		String buttonName = toRemove.get(i);
+		if(buttonName.equals(name)){
+			toRemove.remove(i);
+		}
+	}
 }
 
 public void controlEvent(ControlEvent e){
@@ -175,6 +193,8 @@ public void controlEvent(ControlEvent e){
 }
 
 public void Play_Button(){
+	JSONArray mapValues = loadJSONArray(MAP_DATA);
+	currentMapData = mapValues.getJSONArray(0);
 	screenState = 2;
 	initialize = true;
 	clearController();
@@ -194,6 +214,24 @@ public void Settings_Back(){
 	screenState = 0;
 	initialize = true;
 	clearController();
+}
+
+public void Map_Back(){
+	if(currentMapData.getJSONObject(0).getInt("screen number") > 0){
+		JSONArray mapValues = loadJSONArray(MAP_DATA);
+		currentMapData = mapValues.getJSONArray(currentMapData.getJSONObject(0).getInt("screen number") - 1);
+	}else{
+		screenState = 0;
+	}
+	initialize = true;	
+	clearController();	
+}
+
+public void Map_Next(){
+	JSONArray mapValues = loadJSONArray(MAP_DATA);
+	currentMapData = mapValues.getJSONArray(currentMapData.getJSONObject(0).getInt("screen number") + 1);
+	clearController();
+	initialize = true;
 }
 
 public void Level_Info_Back(){

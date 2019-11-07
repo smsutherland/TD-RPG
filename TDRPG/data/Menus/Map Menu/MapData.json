@@ -1,7 +1,8 @@
 [
 	[
 		{
-			"background": "Menus/Map Menu/Map1.png"
+			"background": "Menus/Map Menu/Map1.png",
+			"screen number": 0
 		},
 		{
 			"name": "Level 1",
@@ -19,10 +20,13 @@
 	[
 		{
 			"background": "Menus/Map Menu/Map1.png",
-			"number": 3
+			"screen number": 1
 		},
 		{
-			
+			"name": "Level 3",
+			"xPos": 20,
+			"yPos": 20,
+			"unlocked": true
 		}
 	]
 ]
