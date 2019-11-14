@@ -7,6 +7,7 @@ int screenState = 0;
 1 = Settings Menu
 2 = Map Menu
 3 = Level Info
+4 = In Game
 */
 
 ArrayList<String> toRemove = new ArrayList<String>();
@@ -68,6 +69,9 @@ void drawScreen(){
 		break;
 	case 3:
 		levelInfo();
+		break;
+	case 4:
+		inGame();
 		break;
 	}
 }
@@ -274,4 +278,10 @@ public void Difficulty(int difficulty){
 	}else{
 		hard = true;
 	}
+}
+
+public void Level_Info_Play(){
+	screenState = 4;
+	initialize = true;
+	clearController();
 }
