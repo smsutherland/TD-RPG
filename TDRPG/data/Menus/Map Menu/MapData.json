@@ -1,0 +1,32 @@
+[
+	[
+		{
+			"background": "Menus/Map Menu/Map1.png",
+			"screen number": 0
+		},
+		{
+			"name": "Level 1",
+			"xPos": 20,
+			"yPos": 20,
+			"unlocked": true
+		},
+		{
+			"name": "Level 2",
+			"xPos": 100,
+			"yPos": 400,
+			"unlocked": true
+		}
+	],
+	[
+		{
+			"background": "Menus/Map Menu/Map1.png",
+			"screen number": 1
+		},
+		{
+			"name": "Level 1",
+			"xPos": 40,
+			"yPos": 40,
+			"unlocked": true
+		}
+	]
+]

@@ -6,3 +6,6 @@ final String SETTINGS_BUTTON = "Menus/Start Menu/Settings Button.png";
 final String EXIT_BUTTON = "Menus/Start Menu/Exit Button.png";
 final String SETTINGS_MENU_BACKGROUND = "Menus/Settings Menu/Settings Menu.png";
 final String BACK_BUTTON = "Menus/Back.png";
+final String NEXT_BUTTON = "Menus/Next.png";
+final String MAP_DATA = "Menus/Map Menu/MapData.json";
+final String LEVEL_DATA = "Level Data/levelData.json";
