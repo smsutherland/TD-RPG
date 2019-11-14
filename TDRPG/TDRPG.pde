@@ -179,6 +179,10 @@ void levelInfoDrawText(){
 	text("Highscore: " + currentLevelData.getInt("highscore"), WINDOW_WIDTH*3/10, WINDOW_HEIGHT*17/20);
 }
 
+void inGame(){
+	
+}
+
 void removeController(String controllerName){
 	toRemove.add(controllerName);
 	currentControllers.remove(controllerName);
