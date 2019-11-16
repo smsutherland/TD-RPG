@@ -8,6 +8,7 @@ int screenState = 0;
 2 = Map Menu
 3 = Level Info
 4 = In Game
+5 = In Game Paused
 */
 
 ArrayList<String> toRemove = new ArrayList<String>();
@@ -153,7 +154,7 @@ void levelInfo(){
 void levelInfoDrawShade(){
 	rectMode(CORNER);
 	noStroke();
-	fill(100, 100, 100, 255/2);
+	fill(#646464, 255/2);
 	rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
@@ -161,7 +162,7 @@ void levelInfoDrawOutline(){
 	stroke(0);
 	strokeWeight(2);
 	rectMode(CENTER);
-	fill(255);
+	fill(#ffffff);
 	rect(WINDOW_WIDTH/2, WINDOW_HEIGHT*2/5, WINDOW_WIDTH*3/5, WINDOW_HEIGHT*3/5);
 }
 
@@ -170,7 +171,7 @@ void levelInfoDrawText(){
 	if(currentLevelData.getString("name").length() > 10){
 		textFont(smallTitle);
 	}
-	fill(0);
+	fill(#000000);
 	textAlign(CENTER, CENTER);
 	text(currentLevelData.getString("name"), WINDOW_WIDTH/2, WINDOW_HEIGHT*3/4, WINDOW_WIDTH*1/2, WINDOW_HEIGHT/10);
 	
@@ -180,7 +181,18 @@ void levelInfoDrawText(){
 }
 
 void inGame(){
-	
+	if(initialize){
+		addButton("Add_Tower", WINDOW_WIDTH*4/5 + 20, 20);
+		addButton("Pause", WINDOW_WIDTH*4/5 + 100, 20);
+		initialize = false;
+	}
+	fill(#66461b);
+	rectMode(CORNER);
+	rect(WINDOW_WIDTH*4/5, 0, WINDOW_WIDTH/5, WINDOW_HEIGHT);
+	fill(#000000);
+	line(WINDOW_WIDTH*4/5, WINDOW_HEIGHT/5, WINDOW_WIDTH, WINDOW_HEIGHT/5);
+	imageMode(CORNER);
+	image(levelBackground, 0, 0);
 }
 
 void removeController(String controllerName){
@@ -286,6 +298,16 @@ public void Difficulty(int difficulty){
 
 public void Level_Info_Play(){
 	screenState = 4;
+	initialize = true;
+	clearController();
+}
+
+public void Add_Tower(){
+	
+}
+
+public void Pause(){
+	screenState = 5;
 	initialize = true;
 	clearController();
 }
