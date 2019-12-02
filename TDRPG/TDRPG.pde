@@ -82,9 +82,9 @@ void startMenu(){
 		initialize = false;
 		currentBackground = loadImage(START_MENU_BACKGROUND);
 		
-		addButton("Play_Button", 100, 400, PLAY_BUTTON);
-		addButton("Settings_Button", 100, 450, SETTINGS_BUTTON);
-		addButton("Exit_Button", 100, 500, EXIT_BUTTON);
+		addButton("Play_Button", 100, 350, PLAY_BUTTON);
+		addButton("Settings_Button", 100, 420, SETTINGS_BUTTON);
+		addButton("Exit_Button", 100, 490, EXIT_BUTTON);
 	}
 }
 
