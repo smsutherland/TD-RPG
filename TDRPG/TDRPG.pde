@@ -8,7 +8,6 @@ int screenState = 0;
 2 = Map Menu
 3 = Level Info
 4 = In Game
-5 = In Game Paused
 */
 
 ArrayList<String> toRemove = new ArrayList<String>();
@@ -134,12 +133,12 @@ void addThisLevelButton(JSONObject thisLevel){
 void levelInfo(){
 	if(initialize){
 		levelBackground = loadImage(currentLevelData.getString("background"));
-		initialize = false;
 		addButton("Level_Info_Back", WINDOW_WIDTH/5, WINDOW_HEIGHT*4/5, BACK_BUTTON);
 		addButton("Level_Info_Play", WINDOW_WIDTH*4/5 - 50, WINDOW_HEIGHT*4/5, NEXT_BUTTON);
 		
 		cp5.addRadioButton("Difficulty").setPosition(WINDOW_WIDTH*3/5 + 100, WINDOW_HEIGHT*4/5).setSize(40, 20).setItemsPerRow(1).addItem("Normal", 0).addItem("Hard", 1).setNoneSelectedAllowed(false).activate(0);
 		currentControllers.add("Difficulty");
+		initialize = false;
 	}
 	levelInfoDrawShade();
 
@@ -183,12 +182,12 @@ void levelInfoDrawText(){
 void inGame(){
 	if(initialize){
 		addButton("Add_Tower", WINDOW_WIDTH*4/5 + 20, 20);
-		addButton("Pause", WINDOW_WIDTH*4/5 + 100, 20);
+		addButton("Quit", WINDOW_WIDTH*4/5 + 100, 20);
 		initialize = false;
 	}
 	fill(#66461b);
 	rectMode(CORNER);
-	rect(WINDOW_WIDTH*4/5, 0, WINDOW_WIDTH/5, WINDOW_HEIGHT);
+	rect(950, 0, 250, WINDOW_HEIGHT);
 	fill(#000000);
 	line(WINDOW_WIDTH*4/5, WINDOW_HEIGHT/5, WINDOW_WIDTH, WINDOW_HEIGHT/5);
 	imageMode(CORNER);
@@ -306,8 +305,8 @@ public void Add_Tower(){
 	
 }
 
-public void Pause(){
-	screenState = 5;
+public void Quit(){
+	screenState = 0;
 	initialize = true;
 	clearController();
 }
