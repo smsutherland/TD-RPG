@@ -19,6 +19,7 @@ PImage levelBackground;
 JSONArray currentMapData;
 JSONObject currentLevelData;
 boolean hard = false;
+Game activeGame = null;
 
 PFont title;
 PFont smallTitle;
@@ -183,15 +184,18 @@ void inGame(){
 	if(initialize){
 		addButton("Add_Tower", WINDOW_WIDTH*4/5 + 20, 20);
 		addButton("Quit", WINDOW_WIDTH*4/5 + 100, 20);
+		activeGame = new Game(levelBackground);
+		levelBackground = null;
 		initialize = false;
 	}
 	fill(#66461b);
 	rectMode(CORNER);
 	rect(950, 0, 250, WINDOW_HEIGHT);
 	fill(#000000);
-	line(WINDOW_WIDTH*4/5, WINDOW_HEIGHT/5, WINDOW_WIDTH, WINDOW_HEIGHT/5);
-	imageMode(CORNER);
-	image(levelBackground, 0, 0);
+	line(950, WINDOW_HEIGHT/5, WINDOW_WIDTH, WINDOW_HEIGHT/5);
+	
+	activeGame.update();
+	activeGame.render();
 }
 
 void removeController(String controllerName){
@@ -302,7 +306,7 @@ public void Level_Info_Play(){
 }
 
 public void Add_Tower(){
-	
+	activeGame.startPlacingTower();
 }
 
 public void Quit(){
