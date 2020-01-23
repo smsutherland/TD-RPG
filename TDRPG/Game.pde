@@ -1,19 +1,23 @@
 public class Game{
+	private String levelName;
 	private PImage background;
 	private Tower[][] grid;
 	boolean placingTower = false;
 	
 	Game(){
+		levelName = "Nameless";
 		background = null;
 		grid = new Tower[19][14];
 	}
 	
-	Game(String backgroundFilename){
+	Game(String levelName_, String backgroundFilename){
+		levelName = levelName_;
 		background = loadImage(backgroundFilename);
 		grid = new Tower[19][14];
 	}
 	
-	Game(PImage background_){
+	Game(String levelName_, PImage background_){
+		levelName = levelName_;
 		background = background_;
 		grid = new Tower[19][14];
 	}
@@ -73,7 +77,13 @@ public class Game{
 	
 	private void placeTower(int x, int y){
 		if(grid[x][y] == null){
-			grid[x][y] = new Tower();
+			byte mapData[] = loadBytes("Level Data/" + levelName + "/mapPlacement.bin");
+			byte relevantByte = mapData[(x + y*GAME_GRID_WIDTH)/8];
+			byte[] powers = {byte(1), byte(2), byte(4), byte(8), byte(16), byte(32), byte(64), byte(128)};
+			int bit = (x + y*GAME_GRID_WIDTH)%8;
+			if((relevantByte & powers[bit]) != byte(0)){
+				grid[x][y] = new Tower();
+			}
 		}
 	}
 }

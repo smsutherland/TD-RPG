@@ -17,7 +17,7 @@ void fileSelected(File selection) {
 				if(c == color(255,255,255)){
 					colors[i] = true;
 				}else{
-					colors[i] =false;
+					colors[i] = false;
 				}
 				i++;
 			}
@@ -33,7 +33,8 @@ void fileSelected(File selection) {
 				}
 			}
 			
-			saveBytes("result.bin", bytes);
+			saveBytes(selection.getParent() + "/result.bin", bytes);
 		}
 	}
+	exit();
 }

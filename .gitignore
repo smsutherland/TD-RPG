@@ -3,4 +3,6 @@
 *.sublime*
 # these are the sublime project files and don't need to be carried through git
 build-tmp/
-#temporary build files
+# temporary build files
+ImageToMap/application*
+# complied executable of the imageToMap program

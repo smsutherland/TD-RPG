@@ -9,3 +9,5 @@ final String BACK_BUTTON = "Menus/Back.png";
 final String NEXT_BUTTON = "Menus/Next.png";
 final String MAP_DATA = "Menus/Map Menu/MapData.json";
 final String LEVEL_DATA = "Level Data/levelData.json";
+final int GAME_GRID_WIDTH = 19;
+final int GAME_GRID_HEIGHT = 14;

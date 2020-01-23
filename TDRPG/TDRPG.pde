@@ -124,7 +124,12 @@ void addLevelButtons(){
 
 void addThisLevelButton(JSONObject thisLevel){
 	try{
-		cp5.addButton(thisLevel.getString("name")).setPosition(thisLevel.getInt("xPos"), thisLevel.getInt("yPos")).setSize(50, 50).onPress(moveToLevelInfo);
+		
+		cp5.addButton(thisLevel.getString("name"))
+		.setPosition(thisLevel.getInt("xPos"), thisLevel.getInt("yPos"))
+		.setSize(50, 50)
+		.onPress(moveToLevelInfo);
+		
 		currentControllers.add(thisLevel.getString("name"));
 		undoRemove(thisLevel.getString("name"));
 	}
@@ -133,7 +138,7 @@ void addThisLevelButton(JSONObject thisLevel){
 
 void levelInfo(){
 	if(initialize){
-		levelBackground = loadImage(currentLevelData.getString("background"));
+		levelBackground = loadImage("Level Data/" + currentLevelData.getString("name") + "/background.png");
 		addButton("Level_Info_Back", WINDOW_WIDTH/5, WINDOW_HEIGHT*4/5, BACK_BUTTON);
 		addButton("Level_Info_Play", WINDOW_WIDTH*4/5 - 50, WINDOW_HEIGHT*4/5, NEXT_BUTTON);
 		
@@ -184,7 +189,7 @@ void inGame(){
 	if(initialize){
 		addButton("Add_Tower", WINDOW_WIDTH*4/5 + 20, 20);
 		addButton("Quit", WINDOW_WIDTH*4/5 + 100, 20);
-		activeGame = new Game(levelBackground);
+		activeGame = new Game(currentLevelData.getString("name"), levelBackground);
 		levelBackground = null;
 		initialize = false;
 	}
