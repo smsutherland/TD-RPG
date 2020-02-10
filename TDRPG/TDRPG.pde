@@ -1,4 +1,5 @@
 import controlP5.*;
+import java.util.Map;
 ControlP5 cp5;
 
 int screenState = 0;
@@ -21,6 +22,8 @@ JSONObject currentLevelData;
 boolean hard = false;
 Game activeGame = null;
 
+Map<String, Breed> breeds = new HashMap<String, Breed>();
+
 PFont title;
 PFont smallTitle;
 PFont subTitle;
@@ -38,6 +41,7 @@ void setup(){
 	//surface.setResizable(true);
 	surface.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	surface.setLocation(20, 20);
+	frameRate(30);
 	noStroke();
 	title = createFont("Times New Roman", 32);
 	smallTitle = createFont("Times New Roman", 24);
@@ -189,7 +193,7 @@ void inGame(){
 	if(initialize){
 		addButton("Add_Tower", WINDOW_WIDTH*4/5 + 20, 20);
 		addButton("Quit", WINDOW_WIDTH*4/5 + 100, 20);
-		activeGame = new Game(currentLevelData.getString("name"), levelBackground);
+		activeGame = new Game(currentLevelData.getString("name"));
 		levelBackground = null;
 		initialize = false;
 	}
@@ -318,4 +322,19 @@ public void Quit(){
 	screenState = 0;
 	initialize = true;
 	clearController();
+}
+
+Breed breed(String breedName){
+	if(breeds.size() == 0){
+		loadBreeds();
+	}
+	return breeds.get(breedName);
+}
+
+void loadBreeds(){
+	JSONArray breedsInJSON = loadJSONArray(BREEDS_DATA);
+	for(int i = 0; i < breedsInJSON.size(); i++){
+		JSONObject thisBreed = breedsInJSON.getJSONObject(i);
+		breeds.put(thisBreed.getString("name"), new Breed(thisBreed));
+	}
 }

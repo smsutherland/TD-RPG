@@ -2,28 +2,25 @@ public class Game{
 	private String levelName;
 	private PImage background;
 	private Tower[][] grid;
-	boolean placingTower = false;
+	private boolean placingTower = false;
+	private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	private int[][] path;
+	
+	BufferedReader schedule;
 	
 	Game(){
 		levelName = "Nameless";
 		background = null;
 		grid = new Tower[19][14];
+		schedule = null;
+		path = null;
 	}
 	
-	Game(String levelName_, String backgroundFilename){
+	Game(String levelName_){
 		levelName = levelName_;
-		background = loadImage(backgroundFilename);
+		background = loadImage("Level Data/" + levelName + "/background.png");
 		grid = new Tower[19][14];
-	}
-	
-	Game(String levelName_, PImage background_){
-		levelName = levelName_;
-		background = background_;
-		grid = new Tower[19][14];
-	}
-	
-	void initializeGame(){
-		
+		path = loadPath();
 	}
 	
 	void render(){
@@ -44,11 +41,29 @@ public class Game{
 				}
 			}
 		}
+		
+		for(int i = 0; i < enemyList.size(); i++){
+			Enemy e = enemyList.get(i);
+			PVector position = getPathPosition(e);
+			if(position != null){
+				//e.render(position, getPathDirection(e));
+				e.render(position);
+			}else{
+				enemyList.remove(e);
+				i--;
+			}
+		}
 	}
 	
 	void update(){
 		if(placingTower){
 			checkForTowerPlacement();
+		}
+		
+		addNextEnemy();
+		
+		for(Enemy e : enemyList){
+			e.move();
 		}
 	}
 	
@@ -86,4 +101,55 @@ public class Game{
 			}
 		}
 	}
+	
+	private void addNextEnemy(){
+		if(frameCount%60 == 0){
+			enemyList.add(new Enemy("Square Bear"));
+		}
+	}
+
+	private int[][] loadPath(){
+		BufferedReader reader = createReader("Level Data/" + levelName + "/mapPath.txt");
+		String line;
+		try{
+			line = reader.readLine();
+		}catch (IOException e){
+			return null;
+		}
+		int numPoints = int(line);
+		int[][] toReturn = new int[numPoints][2];
+		for(int i = 0; i < numPoints; i++){	
+			try{
+				line = reader.readLine();
+			}catch (IOException e){
+				break;
+			}
+			String[] pieces = split(line, ',');
+			toReturn[i][0] = int(pieces[0]);
+			toReturn[i][1] = int(pieces[1]);
+		}
+		return toReturn;
+	}
+
+	private PVector getPathPosition(Enemy e){
+		int enemyDistance = e.position;
+		float totalDistance = 0;
+		for(int i = 1; i < path.length; i++){
+			float currentDistance = 50*dist(path[i-1][0], path[i-1][1], path[i][0], path[i][1]);
+			if(totalDistance + currentDistance > enemyDistance){
+				float remainderDistance = enemyDistance - totalDistance;
+				int x = int(lerp(50*path[i-1][0], 50*path[i][0], remainderDistance/currentDistance)) + 25;
+				int y = int(lerp(50*path[i-1][1], 50*path[i][1], remainderDistance/currentDistance)) + 25;
+				return new PVector(x, y);
+			}else{
+				totalDistance += currentDistance;
+			}
+		}
+		
+		return null;
+	}
+
+/* 	private float getPathDirection(Enemy e){
+
+	} */
 }

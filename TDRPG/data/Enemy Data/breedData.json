@@ -1,0 +1,9 @@
+[
+    {
+        "name": "Square Bear",
+        "textureFilename": "data/Enemy Data/Square Bear/texture.png",
+        "maxHealth": 100,
+        "speed": 5,
+        "damage": 1
+    }
+]
