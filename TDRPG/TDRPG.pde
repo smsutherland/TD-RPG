@@ -23,6 +23,7 @@ boolean hard = false;
 Game activeGame = null;
 
 Map<String, Breed> breeds = new HashMap<String, Breed>();
+String[] breedId;
 
 PFont title;
 PFont smallTitle;
@@ -332,9 +333,14 @@ Breed breed(String breedName){
 }
 
 void loadBreeds(){
-	JSONArray breedsInJSON = loadJSONArray(BREEDS_DATA);
-	for(int i = 0; i < breedsInJSON.size(); i++){
-		JSONObject thisBreed = breedsInJSON.getJSONObject(i);
-		breeds.put(thisBreed.getString("name"), new Breed(thisBreed));
+	if(breeds.size() == 0){
+		JSONArray breedsInJSON = loadJSONArray(BREEDS_DATA);
+		int numBreeds = breedsInJSON.size();
+		breedId = new String[numBreeds];
+		for(int i = 0; i < numBreeds; i++){
+			JSONObject thisBreed = breedsInJSON.getJSONObject(i);
+			breeds.put(thisBreed.getString("name"), new Breed(thisBreed));
+			breedId[i] = thisBreed.getString("name");
+		}
 	}
 }

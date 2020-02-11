@@ -4,6 +4,7 @@
         "textureFilename": "data/Enemy Data/Square Bear/texture.png",
         "maxHealth": 100,
         "speed": 5,
-        "damage": 1
+        "damage": 1,
+        "id": 0
     }
 ]

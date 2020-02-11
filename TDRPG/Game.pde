@@ -7,6 +7,7 @@ public class Game{
 	private int[][] path;
 	
 	BufferedReader schedule;
+	int delayFrames = 1;
 	
 	Game(){
 		levelName = "Nameless";
@@ -17,10 +18,12 @@ public class Game{
 	}
 	
 	Game(String levelName_){
+		loadBreeds();
 		levelName = levelName_;
 		background = loadImage("Level Data/" + levelName + "/background.png");
 		grid = new Tower[19][14];
 		path = loadPath();
+		schedule = createReader("Level Data/" + levelName + "/Schedule.txt");
 	}
 	
 	void render(){
@@ -103,8 +106,28 @@ public class Game{
 	}
 	
 	private void addNextEnemy(){
-		if(frameCount%60 == 0){
-			enemyList.add(new Enemy("Square Bear"));
+		if(delayFrames == 0){
+			String line;
+			try{
+				line = schedule.readLine();
+				println(line);
+			}catch(IOException e){
+				line = null;
+			}
+			if(line != null){
+				if(line.startsWith("Round")){
+					delayFrames = -1;
+				}else{
+					String[] pieces = split(line, ',');
+					delayFrames = int(pieces[1]);
+					String breedName = breedId[int(pieces[0])];
+					enemyList.add(new Enemy(breedName));
+				}
+			}
+		}else{
+			if(delayFrames > 0){
+				delayFrames--;
+			}
 		}
 	}
 
@@ -152,4 +175,10 @@ public class Game{
 /* 	private float getPathDirection(Enemy e){
 
 	} */
+
+	public void startRound(){
+		if(delayFrames < 0){
+			delayFrames = 0;
+		}
+	}
 }
