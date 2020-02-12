@@ -7,7 +7,8 @@ public class Game{
 	private int[][] path;
 	
 	BufferedReader schedule;
-	int delayFrames = 1;
+	int delayFrames = -1;
+	boolean inRound = false;
 	
 	Game(){
 		levelName = "Nameless";
@@ -68,6 +69,10 @@ public class Game{
 		for(Enemy e : enemyList){
 			e.move();
 		}
+
+		if(enemyList.size() == 0 && delayFrames == -1){
+			inRound = false;
+		}
 	}
 	
 	void startPlacingTower(){
@@ -110,7 +115,6 @@ public class Game{
 			String line;
 			try{
 				line = schedule.readLine();
-				println(line);
 			}catch(IOException e){
 				line = null;
 			}
@@ -123,6 +127,9 @@ public class Game{
 					String breedName = breedId[int(pieces[0])];
 					enemyList.add(new Enemy(breedName));
 				}
+			}else{
+				delayFrames = -1;
+				println("Last Round Reached");
 			}
 		}else{
 			if(delayFrames > 0){
@@ -177,8 +184,9 @@ public class Game{
 	} */
 
 	public void startRound(){
-		if(delayFrames < 0){
+		if(delayFrames < 0 && !inRound){
 			delayFrames = 0;
+			inRound = true;
 		}
 	}
 }

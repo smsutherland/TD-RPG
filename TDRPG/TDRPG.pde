@@ -194,6 +194,7 @@ void inGame(){
 	if(initialize){
 		addButton("Add_Tower", WINDOW_WIDTH*4/5 + 20, 20);
 		addButton("Quit", WINDOW_WIDTH*4/5 + 100, 20);
+		addButton("Next_Round", WINDOW_WIDTH*4/5 + 20, 60);
 		activeGame = new Game(currentLevelData.getString("name"));
 		levelBackground = null;
 		initialize = false;
@@ -323,6 +324,10 @@ public void Quit(){
 	screenState = 0;
 	initialize = true;
 	clearController();
+}
+
+public void Next_Round(){
+	activeGame.startRound();
 }
 
 Breed breed(String breedName){
