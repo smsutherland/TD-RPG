@@ -30,10 +30,11 @@ public class Game{
 	void render(){
 		imageMode(CORNER);
 		image(background, 0, 0);
+
 		for(int x = 0; x < 19; x++){
 			for(int y = 0; y < 14; y++){
 				if(grid[x][y] != null){
-					grid[x][y].drawAt(x*50, y*50);
+					grid[x][y].render();
 				}
 			}
 		}
@@ -48,7 +49,7 @@ public class Game{
 		
 		for(int i = 0; i < enemyList.size(); i++){
 			Enemy e = enemyList.get(i);
-			PVector position = getPathPosition(e);
+			int[] position = getPathPosition(e);
 			if(position != null){
 				//e.render(position, getPathDirection(e));
 				e.render(position);
@@ -60,18 +61,34 @@ public class Game{
 	}
 	
 	void update(){
+		if(enemyList.size() == 0 && delayFrames == -1){
+			inRound = false;
+		}
+
 		if(placingTower){
 			checkForTowerPlacement();
 		}
 		
-		addNextEnemy();
-		
-		for(Enemy e : enemyList){
-			e.move();
-		}
+		if(inRound){
+			addNextEnemy();
 
-		if(enemyList.size() == 0 && delayFrames == -1){
-			inRound = false;
+			for(int i = 0; i < enemyList.size(); i++){
+				if(enemyList.get(i).isDead()){
+					enemyList.remove(i);
+					i--;
+				}else{
+					enemyList.get(i).move();
+					checkTargeting(enemyList.get(i));
+				}
+			}
+
+			for(int x = 0; x < grid.length; x++){
+				for(int y = 0; y < grid[x].length; y++){
+					if(grid[x][y] != null){
+						grid[x][y].update();
+					}
+				}
+			}
 		}
 	}
 	
@@ -105,7 +122,7 @@ public class Game{
 			byte[] powers = {byte(1), byte(2), byte(4), byte(8), byte(16), byte(32), byte(64), byte(128)};
 			int bit = (x + y*GAME_GRID_WIDTH)%8;
 			if((relevantByte & powers[bit]) != byte(0)){
-				grid[x][y] = new Tower();
+				grid[x][y] = new Tower(x*50 + 25, y*50 + 25);
 			}
 		}
 	}
@@ -161,7 +178,7 @@ public class Game{
 		return toReturn;
 	}
 
-	private PVector getPathPosition(Enemy e){
+	private int[] getPathPosition(Enemy e){
 		int enemyDistance = e.position;
 		float totalDistance = 0;
 		for(int i = 1; i < path.length; i++){
@@ -170,7 +187,8 @@ public class Game{
 				float remainderDistance = enemyDistance - totalDistance;
 				int x = int(lerp(50*path[i-1][0], 50*path[i][0], remainderDistance/currentDistance)) + 25;
 				int y = int(lerp(50*path[i-1][1], 50*path[i][1], remainderDistance/currentDistance)) + 25;
-				return new PVector(x, y);
+				int[] toReturn = {x, y};
+				return toReturn;
 			}else{
 				totalDistance += currentDistance;
 			}
@@ -187,6 +205,16 @@ public class Game{
 		if(delayFrames < 0 && !inRound){
 			delayFrames = 0;
 			inRound = true;
+		}
+	}
+
+	private void checkTargeting(Enemy e){
+		for(int x = 0; x < grid.length; x++){
+			for(int y = 0; y < grid[x].length; y++){
+				if(grid[x][y] != null){
+					grid[x][y].tryToTarget(e, getPathPosition(e));
+				}
+			}
 		}
 	}
 }

@@ -13,12 +13,24 @@ public class Enemy{
 		position = 0;
 	}
 
-	void render(PVector position){
+	void render(int[] position){
 		imageMode(CENTER);
-		image(breed.texture(), position.x, position.y);
+		image(breed.texture(), position[0], position[1]);
 	}
 
 	void move(){
 		position += breed.speed();
+	}
+
+	int position(){
+		return position;
+	}
+
+	void hurt(int damage){
+		health -= damage;
+	}
+
+	boolean isDead(){
+		return health <= 0;
 	}
 }
