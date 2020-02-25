@@ -11,6 +11,8 @@ int screenState = 0;
 4 = In Game
 */
 
+//processing-java --sketch="C:\Users\sagan\Documents\Actual Documents\UF Documents\GDA\TD-RPG\TDRPG" --run
+
 ArrayList<String> toRemove = new ArrayList<String>();
 ArrayList<String> currentControllers = new ArrayList<String>();
 
