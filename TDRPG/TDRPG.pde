@@ -89,9 +89,9 @@ void startMenu(){
 		initialize = false;
 		currentBackground = loadImage(START_MENU_BACKGROUND);
 		
-		addButton("Play_Button", 100, 350, PLAY_BUTTON);
-		addButton("Settings_Button", 100, 420, SETTINGS_BUTTON);
-		addButton("Exit_Button", 100, 490, EXIT_BUTTON);
+		addButton("Play_Button", 100, 355, PLAY_BUTTON, PLAY_BUTTON_PUSH);
+		addButton("Settings_Button", 100, 430, SETTINGS_BUTTON, SETTINGS_BUTTON_PUSH);
+		addButton("Exit_Button", 100, 505, EXIT_BUTTON, EXIT_BUTTON_PUSH);
 	}
 }
 
@@ -231,6 +231,14 @@ void removeItterate(){
 void addButton(String name, int x, int y, String imageName){
 	PImage buttonImage = loadImage(imageName);
 	cp5.addButton(name).setPosition(x, y).setImages(buttonImage, buttonImage, buttonImage).updateSize();
+	currentControllers.add(name);
+	undoRemove(name);
+}
+
+void addButton(String name, int x, int y, String defaultImageName, String pushedImageName){
+	PImage defaultImage = loadImage(defaultImageName);
+	PImage pushedImage = loadImage(pushedImageName);
+	cp5.addButton(name).setPosition(x, y).setImages(defaultImage, defaultImage, pushedImage).updateSize();
 	currentControllers.add(name);
 	undoRemove(name);
 }
